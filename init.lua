@@ -673,6 +673,11 @@ require('lazy').setup({
 
       require('lspconfig').jdtls.setup {
         -- Your custom nvim-java configuration goes here
+        capabilities = vim.tbl_deep_extend('force', capabilities, {
+          general = {
+            positionEncodings = { 'utf-16' }
+          }
+        })
       }
 
       -- The following loop will configure each server with the capabilities we defined above.
@@ -694,6 +699,7 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'google-java-format', -- Used to format Java code
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
     end,
@@ -727,6 +733,7 @@ require('lazy').setup({
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
         python = { 'isort', 'black' },
+        java = { 'google-java-format' },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
@@ -938,7 +945,7 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.debug',
   require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
 
