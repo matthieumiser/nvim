@@ -506,7 +506,6 @@ require('lazy').setup({
       { 'mason-org/mason.nvim', opts = {} },
       { 'mason-org/mason-lspconfig.nvim' },
       'WhoIsSethDaniel/mason-tool-installer.nvim',
-      'nvim-java/nvim-java',
 
       -- Useful status updates for LSP.
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
@@ -667,18 +666,6 @@ require('lazy').setup({
           },
         },
       }
-      require('java').setup {
-        -- Your custom jdtls settings goes here
-      }
-
-      require('lspconfig').jdtls.setup {
-        -- Your custom nvim-java configuration goes here
-        capabilities = vim.tbl_deep_extend('force', capabilities, {
-          general = {
-            positionEncodings = { 'utf-16' }
-          }
-        })
-      }
 
       -- The following loop will configure each server with the capabilities we defined above.
       -- This will ensure that all servers have the same base configuration, but also
@@ -699,7 +686,6 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
-        'google-java-format', -- Used to format Java code
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
     end,
@@ -733,7 +719,6 @@ require('lazy').setup({
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
         python = { 'isort', 'black' },
-        java = { 'google-java-format' },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
@@ -909,7 +894,7 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     opts = {
-      ensure_installed = { 'bash', 'c', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc', 'java' },
+      ensure_installed = { 'bash', 'c', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
