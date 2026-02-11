@@ -287,7 +287,6 @@ require('lazy').setup({
       { '<leader>ad', '<cmd>ClaudeCodeDiffDeny<cr>', desc = 'Deny diff' },
     },
   },
-
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
   -- keys can be used to configure plugin behavior/loading/etc.
@@ -640,6 +639,7 @@ require('lazy').setup({
         gopls = {},
         pyright = {},
         terraformls = {},
+        kotlin_language_server = {},
         -- shfmt = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -669,17 +669,14 @@ require('lazy').setup({
       }
       require('java').setup {
         -- Your custom jdtls settings goes here
+        lombok = {
+          version = 'stable', -- lombok-nightly was removed from Mason registry
+        },
       }
 
       require('lspconfig').jdtls.setup {
         -- Your custom nvim-java configuration goes here
-        capabilities = vim.tbl_deep_extend('force', capabilities, {
-          general = {
-            positionEncodings = { 'utf-16' }
-          }
-        })
       }
-
       -- The following loop will configure each server with the capabilities we defined above.
       -- This will ensure that all servers have the same base configuration, but also
       -- allow for server-specific overrides.
@@ -723,7 +720,7 @@ require('lazy').setup({
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
+        local disable_filetypes = { c = true, cpp = true, java = true }
         return {
           timeout_ms = 500,
           lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
@@ -733,7 +730,8 @@ require('lazy').setup({
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
         python = { 'isort', 'black' },
-        java = { 'google-java-format' },
+        -- Java formatting disabled - let IntelliJ users handle formatting
+        -- java = { lsp_format = 'prefer' },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
@@ -867,7 +865,6 @@ require('lazy').setup({
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
-
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
     config = function()
