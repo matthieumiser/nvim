@@ -364,17 +364,12 @@ require('lazy').setup({
       require('which-key').setup()
 
       -- Document existing key chains
-      require('which-key').add {
-        { '<leader>c', group = '[C]ode' },
-        { '<leader>c_', hidden = true },
-        { '<leader>d', group = '[D]ocument' },
-        { '<leader>d_', hidden = true },
-        { '<leader>r', group = '[R]ename' },
-        { '<leader>r_', hidden = true },
-        { '<leader>s', group = '[S]earch' },
-        { '<leader>s_', hidden = true },
-        { '<leader>w', group = '[W]orkspace' },
-        { '<leader>w_', hidden = true },
+      require('which-key').register {
+        ['<leader>c'] = { name = '[C]ode' },
+        ['<leader>d'] = { name = '[D]ocument' },
+        ['<leader>r'] = { name = '[R]ename' },
+        ['<leader>s'] = { name = '[S]earch' },
+        ['<leader>w'] = { name = '[W]orkspace' },
       }
     end,
   },
@@ -635,12 +630,15 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        -- clangd = {},
+        clangd = {},
         gopls = {},
         pyright = {},
         terraformls = {},
         -- shfmt = {},
-        -- rust_analyzer = {},
+        rust_analyzer = {
+          -- Use rustup's rust-analyzer to match toolchain version
+          cmd = { 'rustup', 'run', 'stable', 'rust-analyzer' },
+        },
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
