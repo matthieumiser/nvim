@@ -912,6 +912,9 @@ require('lazy').setup({
     lazy = false,
     build = ':TSUpdate',
     config = function()
+      -- Add the runtime queries to runtimepath (required for highlight queries)
+      vim.opt.runtimepath:append(vim.fn.stdpath('data') .. '/lazy/nvim-treesitter/runtime')
+
       -- Install parsers (no-op if already installed per official docs)
       require('nvim-treesitter').install { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'java' }
 
