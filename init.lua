@@ -644,11 +644,10 @@ require('lazy').setup({
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
-        -- Some languages (like typescript) have entire language plugins that can be useful:
-        --    https://github.com/pmizio/typescript-tools.nvim
-        --
-        -- But for many setups, the LSP (`tsserver`) will work just fine
-        -- tsserver = {},
+        -- TypeScript/React LSP
+        ts_ls = {},
+        -- ESLint for linting JS/TS/React
+        eslint = {},
         tailwindcss = {},
         --
 
@@ -702,6 +701,7 @@ require('lazy').setup({
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
         'google-java-format', -- Used to format Java code
+        'prettierd', -- Fast prettier daemon for JS/TS/React
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
     end,
@@ -738,9 +738,14 @@ require('lazy').setup({
         -- Java formatting disabled - let IntelliJ users handle formatting
         -- java = { lsp_format = 'prefer' },
         --
-        -- You can use a sub-list to tell conform to run *until* a formatter
-        -- is found.
-        -- javascript = { { "prettierd", "prettier" } },
+        -- TypeScript/JavaScript/React formatting with prettier
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
+        javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+        typescript = { 'prettierd', 'prettier', stop_after_first = true },
+        typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+        json = { 'prettierd', 'prettier', stop_after_first = true },
+        css = { 'prettierd', 'prettier', stop_after_first = true },
+        html = { 'prettierd', 'prettier', stop_after_first = true },
       },
     },
   },
@@ -916,7 +921,7 @@ require('lazy').setup({
       vim.opt.runtimepath:append(vim.fn.stdpath('data') .. '/lazy/nvim-treesitter/runtime')
 
       -- Install parsers (no-op if already installed per official docs)
-      require('nvim-treesitter').install { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'java' }
+      require('nvim-treesitter').install { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'java', 'javascript', 'typescript', 'tsx', 'css', 'json' }
 
       -- Enable treesitter-based highlighting
       vim.api.nvim_create_autocmd('FileType', {
