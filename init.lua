@@ -264,27 +264,15 @@ require('lazy').setup({
   'nvim-lua/plenary.nvim',
   'ThePrimeagen/harpoon',
   {
-    'coder/claudecode.nvim',
-    dependencies = { 'folke/snacks.nvim' },
-    config = true,
-    keys = {
-      { '<leader>a', nil, desc = 'AI/Claude Code' },
-      { '<leader>ac', '<cmd>ClaudeCode<cr>', desc = 'Toggle Claude' },
-      { '<leader>af', '<cmd>ClaudeCodeFocus<cr>', desc = 'Focus Claude' },
-      { '<leader>ar', '<cmd>ClaudeCode --resume<cr>', desc = 'Resume Claude' },
-      { '<leader>aC', '<cmd>ClaudeCode --continue<cr>', desc = 'Continue Claude' },
-      { '<leader>am', '<cmd>ClaudeCodeSelectModel<cr>', desc = 'Select Claude model' },
-      { '<leader>ab', '<cmd>ClaudeCodeAdd %<cr>', desc = 'Add current buffer' },
-      { '<leader>as', '<cmd>ClaudeCodeSend<cr>', mode = 'v', desc = 'Send to Claude' },
-      {
-        '<leader>as',
-        '<cmd>ClaudeCodeTreeAdd<cr>',
-        desc = 'Add file',
-        ft = { 'NvimTree', 'neo-tree', 'oil', 'minifiles' },
-      },
-      -- Diff management
-      { '<leader>aa', '<cmd>ClaudeCodeDiffAccept<cr>', desc = 'Accept diff' },
-      { '<leader>ad', '<cmd>ClaudeCodeDiffDeny<cr>', desc = 'Deny diff' },
+    'kawre/leetcode.nvim',
+    build = ':TSUpdate html', -- if you have `nvim-treesitter` installed
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter', -- Added: Ensures TSUpdate exists before building
+      'nvim-lua/plenary.nvim',
+      'MunifTanjim/nui.nvim', -- Uncommented: Required for the UI
+    },
+    opts = {
+      lang = 'rust',
     },
   },
 
@@ -630,7 +618,18 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        clangd = {},
+        clangd = {
+          -- cmd = {
+          --   'clangd',
+          --   '--background-index',
+          --   '--clang-tidy',
+          --   -- Remove the --fallback-style line from here
+          -- },
+          -- -- This is the actual magic block for compile flags:
+          -- init_options = {
+          --   fallbackFlags = { '-std=c++20' },
+          -- },
+        },
         gopls = {},
         pyright = {},
         terraformls = {},
@@ -717,6 +716,7 @@ require('lazy').setup({
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
         python = { 'isort', 'black' },
+        rust = { 'rustfmt' },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
