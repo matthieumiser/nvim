@@ -635,13 +635,13 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        -- clangd = {},
+        clangd = {},
         gopls = {},
         pyright = {},
         terraformls = {},
         kotlin_language_server = {},
         -- shfmt = {},
-        -- rust_analyzer = {},
+        rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- TypeScript/React LSP
@@ -649,6 +649,7 @@ require('lazy').setup({
         -- ESLint for linting JS/TS/React
         eslint = {},
         tailwindcss = {},
+        wgsl_analyzer = {},
         --
 
         lua_ls = {
@@ -918,10 +919,29 @@ require('lazy').setup({
     build = ':TSUpdate',
     config = function()
       -- Add the runtime queries to runtimepath (required for highlight queries)
-      vim.opt.runtimepath:append(vim.fn.stdpath('data') .. '/lazy/nvim-treesitter/runtime')
+      vim.opt.runtimepath:append(vim.fn.stdpath 'data' .. '/lazy/nvim-treesitter/runtime')
 
       -- Install parsers (no-op if already installed per official docs)
-      require('nvim-treesitter').install { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'java', 'javascript', 'typescript', 'tsx', 'css', 'json' }
+      require('nvim-treesitter').install {
+        'bash',
+        'c',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+        'java',
+        'javascript',
+        'typescript',
+        'tsx',
+        'css',
+        'json',
+        'wgsl',
+      }
 
       -- Enable treesitter-based highlighting
       vim.api.nvim_create_autocmd('FileType', {
