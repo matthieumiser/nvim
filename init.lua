@@ -967,8 +967,8 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter-context',
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     opts = {
-      max_lines = 3, -- Maximum number of context lines
-      trim_scope = 'outer', -- Which context lines to discard if max_lines is exceeded
+      --   max_lines = 3, -- Maximum number of context lines
+      --   trim_scope = 'outer', -- Which context lines to discard if max_lines is exceeded
       separator = '─', -- Adds a separator line below context
     },
   },
