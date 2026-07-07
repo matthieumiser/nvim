@@ -863,13 +863,11 @@ require('lazy').setup({
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
     'ellisonleao/gruvbox.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
-    init = function()
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
+    config = function()
+      require('gruvbox').setup {
+        transparent_mode = true,
+      }
       vim.cmd.colorscheme 'gruvbox'
-
-      -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
     end,
   },
@@ -941,6 +939,7 @@ require('lazy').setup({
         'css',
         'json',
         'wgsl',
+        'rust',
       }
 
       -- Enable treesitter-based highlighting
@@ -963,6 +962,15 @@ require('lazy').setup({
     --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
     --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+  },
+  { -- Show code context at top of screen
+    'nvim-treesitter/nvim-treesitter-context',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    opts = {
+      max_lines = 3, -- Maximum number of context lines
+      trim_scope = 'outer', -- Which context lines to discard if max_lines is exceeded
+      separator = '─', -- Adds a separator line below context
+    },
   },
 
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
